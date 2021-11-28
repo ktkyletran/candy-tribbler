@@ -1,5 +1,5 @@
-body {
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
+* {
+  font-family: 'Nunito', sans-serif;
 }
