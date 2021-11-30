@@ -8,5 +8,13 @@ export default makeStyles(() => ({
     flexGrow: 1,
     color: 'black',
     letterSpacing: '2px !important',
+    textDecoration: 'none'
   },
+  profile: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  avatar: {
+    marginRight: '10px'
+  }
 }));
