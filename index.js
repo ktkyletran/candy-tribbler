@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import userRoutes from './routes/userRoutes';
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
 
@@ -17,7 +17,7 @@ app.use(cors());
 
 app.use('/user', userRoutes);
 
-mongoose.connect(process.env.MONGO_URI || "mongodb://localhost/creative-crowd", { 
+mongoose.connect(process.env.MONGO_URI, { 
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
