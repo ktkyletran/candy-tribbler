@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Avatar, Button, Paper, Grid, Typography, Container, Checkbox } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import InputField from '../InputField/InputField.js';
@@ -8,6 +9,7 @@ import Icon from './Icon.js';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 import { AUTH } from '../../constants/actionTypes.js';
+import { signIn, signUp } from '../../actions/auth'
 
 const initialState = {
   firstName: '',
@@ -19,19 +21,29 @@ const initialState = {
 
 const Auth = () => {
   const styles = useStyles();
+  const history = useHistory();
   const dispatch = useDispatch();
   const [form, setForm] = useState(initialState);
   const [isSignup, setIsSignup] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
   const [checked, setChecked] = useState(false)
   const [creator, setCreator] = useState(false)
-
-  const handleSubmit = () => {
-
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isSignup) {
+      dispatch(signUp({...form, isCreator: creator}, history))
+    } 
+    else if (isSignup && form.password !== form.confirmPassword) {
+      alert('Please make sure passwords match');
+    } 
+    else {
+      dispatch(signIn(form, history))
+    }
   };
 
-  const handleChange = () => {
-
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
   };
 
   const switchModes = () => {
@@ -44,7 +56,9 @@ const Auth = () => {
     const token = res?.tokenId;
 
     try {
-      dispatch({ type: AUTH, data: { userData, token} })
+      dispatch({ type: AUTH, data: { userData, token } });
+
+      history.push('/')
     } catch (err) {
       console.log(err)
       alert('Google sign in was unsuccessful. Please try again later.')
